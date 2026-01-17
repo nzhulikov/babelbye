@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: babelbye
+      POSTGRES_PASSWORD: babelbye
+      POSTGRES_DB: babelbye
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ..
+      dockerfile: backend/Dockerfile
+    environment:
+      DATABASE_URL: postgres://babelbye:babelbye@postgres:5432/babelbye
+      AUTH_BYPASS: "true"
+      ALLOWED_ORIGINS: "http://localhost:5173"
+      AUTH0_DOMAIN: "dev.local"
+      AUTH0_AUDIENCE: "https://babelbye.local"
+      AUTH0_ISSUER: "https://dev.local/"
+      TRANSLATION_API_URL: "https://libretranslate.com"
+      TRANSLATION_API_KEY: ""
+      FEEDBACK_REPO: ""
+      GITHUB_TOKEN: ""
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: frontend/Dockerfile
+      args:
+        VITE_API_URL: "http://localhost:8080"
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

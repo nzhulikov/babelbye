@@ -43,6 +43,37 @@ Out of scope:
 - IndexedDB for local web storage
 - Docker-friendly runtime
 
+## Local development
+Backend:
+- Copy `infra/env.example` to your environment or export values.
+- Run `cargo run` in `backend` (migrations run automatically).
+
+Frontend:
+- Copy `frontend/env.example` into `.env` in `frontend` if you want a custom API URL.
+- Run `npm install` then `npm run dev` in `frontend`.
+- If `AUTH_BYPASS=true`, use a dev user id in the UI (Generate button).
+- For Auth0, configure a Regular Web App and set `AUTH0_DOMAIN`, `AUTH0_AUDIENCE`, `AUTH0_ISSUER`.
+
+## Docker compose
+Run `docker compose -f infra/docker-compose.yml up --build`.
+
+## Environment variables
+- `DATABASE_URL`: Postgres connection string.
+- `AUTH_BYPASS`: `true` to allow `x-user-id` header or `user_id` WS query param.
+- `ALLOWED_ORIGINS`: comma-separated list for CORS.
+- `AUTH0_DOMAIN`, `AUTH0_AUDIENCE`, `AUTH0_ISSUER`: Auth0 settings.
+- `TRANSLATION_API_URL`, `TRANSLATION_API_KEY`: translation provider settings (LibreTranslate by default).
+- `FEEDBACK_REPO`, `GITHUB_TOKEN`: optional GitHub issue feedback integration.
+Examples are provided in `infra/env.example` and `frontend/env.example`.
+
+## CI/CD
+GitHub Actions builds backend/frontend on PRs and pushes Docker images to GHCR on `main`.
+
+## Troubleshooting
+- `CORS` errors: ensure `ALLOWED_ORIGINS` includes `http://localhost:5173`.
+- `Auth0` errors: confirm the issuer and audience match your Auth0 tenant settings.
+- Port conflicts: change `8080` or `5173` in `infra/docker-compose.yml` if already in use.
+
 ## Vibe coding workflow
 - Agents + rapid iteration
 - Keep scope tight and ship usable slices

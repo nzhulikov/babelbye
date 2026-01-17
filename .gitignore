@@ -1,3 +1,14 @@
+node_modules/
+dist/
+build/
+.env
+.env.local
+.env.*.local
+*.log
+target/
+frontend/.parcel-cache/
+backend/.sqlx/
+.DS_Store
 .env
 .env.*
 !.env.example
