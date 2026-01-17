@@ -33,14 +33,14 @@ alwaysApply: true
 - Device-to-device history sync after explicit user approval
 
 ## Auth & identity
-- Email/password, phone/password, Google sign-in
+- Auth0 for authentication (web-only for now)
 - Token-based auth for API and realtime
 - Device binding supported
 
 ## Observability
 - Metrics for translation/search quotas and latency
 - Transport latency and throughput per user/device
-- Logging to ELK and errors to Sentry
+- Cloud ELK for logs and Sentry for errors
 
 ## Scalability targets
 - 50 concurrent at start, 5k after 1 month, 1M users at 1 year

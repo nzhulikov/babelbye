@@ -7,6 +7,7 @@ alwaysApply: true
 ## Packaging and deployment
 - All services must be Docker-friendly
 - Compose-first dev setup; production ready for orchestration
+- Containerize every service with Docker
 
 ## Runtime topology
 - API + realtime transport services scale horizontally
@@ -19,7 +20,7 @@ alwaysApply: true
 - Rate limit auth and translation endpoints
 
 ## Observability
-- ELK for logs, Sentry for errors
+- Cloud ELK for logs, Sentry for errors
 - Metrics for latency (translation, transport, search)
 - Throughput metrics per user/device and total data passed
 
@@ -27,6 +28,9 @@ alwaysApply: true
 - Health checks and graceful shutdown
 - Backpressure handling on realtime streams
 - Circuit breakers for AI provider failures
+
+## CI/CD
+- GitHub Actions for CI/CD
 
 ## Scalability targets
 - 50 concurrent at start, 5k after 1 month, 1M users at 1 year

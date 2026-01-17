@@ -18,7 +18,7 @@ alwaysApply: true
 - 1:1 chat and group chat
 - Text + voice messages only
 - Local encrypted cache for offline access
-- Use SQLite for on-device storage
+- Use IndexedDB for web storage
 
 ## State and data
 - Feature-first module structure
