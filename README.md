@@ -62,7 +62,7 @@ Run `docker compose -f infra/docker-compose.yml up --build`.
 - `AUTH_BYPASS`: `true` to allow `x-user-id` header or `user_id` WS query param.
 - `ALLOWED_ORIGINS`: comma-separated list for CORS.
 - `AUTH0_DOMAIN`, `AUTH0_AUDIENCE`, `AUTH0_ISSUER`: Auth0 settings.
-- `TRANSLATION_API_URL`, `TRANSLATION_API_KEY`: translation provider settings (LibreTranslate by default).
+- `OPENAI_API_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL`: OpenAI translation settings.
 - `FEEDBACK_REPO`, `GITHUB_TOKEN`: optional GitHub issue feedback integration.
 Examples are provided in `infra/env.example` and `frontend/env.example`.
 

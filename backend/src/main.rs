@@ -7,8 +7,8 @@ mod ports;
 mod use_cases;
 
 use crate::adapters::{
-    GithubFeedbackAdapter, LibreTranslateAdapter, MockFeedbackAdapter,
-    MockTranslationAdapter, PostgresConnectionRepo, PostgresMessageRepo, PostgresUserRepo,
+    GithubFeedbackAdapter, MockFeedbackAdapter, MockTranslationAdapter,
+    OpenAiTranslationAdapter, PostgresConnectionRepo, PostgresMessageRepo, PostgresUserRepo,
 };
 use crate::auth::AuthState;
 use crate::config::Config;
@@ -37,13 +37,14 @@ async fn main() -> Result<(), anyhow::Error> {
     let user_repo: Arc<dyn UserRepo> = Arc::new(PostgresUserRepo::new(db.clone()));
     let connection_repo: Arc<dyn ConnectionRepo> = Arc::new(PostgresConnectionRepo::new(db.clone()));
     let message_repo: Arc<dyn MessageRepo> = Arc::new(PostgresMessageRepo::new(db.clone()));
-    let translation: Arc<dyn TranslationPort> = if config.translation_api_url.trim().is_empty() {
-        Arc::new(MockTranslationAdapter::new())
-    } else {
-        Arc::new(LibreTranslateAdapter::new(
-            config.translation_api_url.clone(),
-            config.translation_api_key.clone(),
+    let translation: Arc<dyn TranslationPort> = if let Some(api_key) = config.openai_api_key.clone() {
+        Arc::new(OpenAiTranslationAdapter::new(
+            config.openai_api_url.clone(),
+            api_key,
+            config.openai_model.clone(),
         ))
+    } else {
+        Arc::new(MockTranslationAdapter::new())
     };
     let feedback: Arc<dyn FeedbackPort> = match (config.github_token.clone(), config.feedback_repo.clone()) {
         (Some(token), Some(repo)) => Arc::new(GithubFeedbackAdapter::new(repo, token)),

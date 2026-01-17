@@ -9,8 +9,9 @@ pub struct Config {
     pub auth0_issuer: String,
     pub auth_bypass: bool,
     pub allowed_origins: String,
-    pub translation_api_url: String,
-    pub translation_api_key: Option<String>,
+    pub openai_api_url: String,
+    pub openai_api_key: Option<String>,
+    pub openai_model: String,
     pub github_token: Option<String>,
     pub feedback_repo: Option<String>,
 }
@@ -28,7 +29,8 @@ impl Config {
         settings = settings.set_default("auth0_domain", default_domain)?;
         settings = settings.set_default("auth0_audience", default_audience)?;
         settings = settings.set_default("auth0_issuer", default_issuer)?;
-        settings = settings.set_default("translation_api_url", "https://libretranslate.com")?;
+        settings = settings.set_default("openai_api_url", "https://api.openai.com/v1")?;
+        settings = settings.set_default("openai_model", "gpt-5.2")?;
         let config: Config = settings.build()?.try_deserialize()?;
 
         if !config.auth_bypass
